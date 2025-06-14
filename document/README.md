@@ -26,16 +26,17 @@ description: 게시글 관련 CRUD API
 {
   {
     "id" : 2
-    "title" : "제목1",
-    "author" : "작성자1",
-    "content" : "내용1",
+    "title" : "제목2",
+    "author" : "작성자2",
+    "content" : "내용2",
     "createdAt" : "2025-06-14T22:30"
   },
   {
     "id" : 1
-    "title" : "제목2",
-    "author" : "작성자2",
-    "content" : "2025-06-14T17:30"
+    "title" : "제목1",
+    "author" : "작성자1",
+    "content" : "내용1",
+    "createdAt" : "2025-06-14T17:30"
   }
 }
 ```
@@ -105,7 +106,7 @@ description: 게시글 관련 CRUD API
 | Name       | Type   | Description |
 | ---------- | ------ | ----------- |
 | `title`    | string | 게시글 제목      |
-| `author`   | string | 작성자명        |
+| `username` | string | 작성자명        |
 | `password` | string | 비밀번호        |
 | `content`  | string | 게시글 본문      |
 
@@ -117,7 +118,7 @@ description: 게시글 관련 CRUD API
 {
   "id" : 1
   "title" : "제목",
-  "author" : "작성자",
+  "username" : "작성자",
   "content" : "게시글 내용",
   "createdAt" : "2025-06-14T22:30"
 }
@@ -135,7 +136,7 @@ description: 게시글 관련 CRUD API
 
 ## 게시글 수정
 
-<mark style="color:green;">`PUT`</mark> `/article/{:id}`
+<mark style="color:green;">`PUT`</mark> `/articles/{:id}`
 
 <선택한 게시글의 수정할 데이터와 비밀번호를 같이 보내고 서버의 비밀번호 확인 후 일치 시 데이터를 수정하고 수정된 게시글을 반>
 
@@ -147,12 +148,12 @@ description: 게시글 관련 CRUD API
 
 **Request**
 
-| Name     | Type   | Description |
-| -------- | ------ | ----------- |
-| `title`  | string | 게시글 제목      |
-| `author` | string | 작성자         |
-| password | string | 비밀번호        |
-| content  | string | 게시글 본문      |
+| Name       | Type   | Description |
+| ---------- | ------ | ----------- |
+| `title`    | string | 게시글 제목      |
+| `username` | string | 작성자         |
+| `password` | string | 비밀번호        |
+| `content`  | string | 게시글 본문      |
 
 **Response**
 
@@ -160,9 +161,11 @@ description: 게시글 관련 CRUD API
 {% tab title="200" %}
 ```json
 {
-  "id": 1,
-  "name": "John",
-  "age": 30
+  "id" : 1,
+  "title" : "제목",
+  "username" : "작성자",
+  "content" : "게시글 내용",
+  "createdAt" : "2025-06-14T22:30"
 }
 ```
 {% endtab %}
@@ -178,7 +181,7 @@ description: 게시글 관련 CRUD API
 
 ## 게시글 삭제
 
-<mark style="color:green;">`DELETE`</mark> `/users/{:id}`
+<mark style="color:green;">`DELETE`</mark> `/articles/{:id}`
 
 <선택한 게시글의 비밀번호를 서버에 보내고 비밀번호 일치 시 게시글 삭제 후 성공 표시 반환>
 
@@ -200,7 +203,7 @@ description: 게시글 관련 CRUD API
 {% tab title="200" %}
 ```json
 {
-  "status": "Delete Article"
+  "status": "Deleted Article"
 }
 ```
 {% endtab %}
