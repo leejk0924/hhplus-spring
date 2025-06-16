@@ -3,6 +3,7 @@ package com.jk.board.dto;
 import com.jk.board.domain.Article;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record ArticleDto (
         Long id,
@@ -18,5 +19,10 @@ public record ArticleDto (
                 entity.getContent(),
                 entity.getCreatedAt()
         );
+    }
+    public static List<ArticleDto> from(List<Article> articles) {
+        return articles.stream()
+                .map(ArticleDto::from)
+                .toList();
     }
 }
