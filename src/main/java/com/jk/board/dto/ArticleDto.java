@@ -3,6 +3,7 @@ package com.jk.board.dto;
 import com.jk.board.domain.Article;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 public record ArticleDto (
@@ -23,6 +24,7 @@ public record ArticleDto (
     public static List<ArticleDto> from(List<Article> articles) {
         return articles.stream()
                 .map(ArticleDto::from)
+                .sorted(Comparator.comparing(ArticleDto::createdAt).reversed())
                 .toList();
     }
 }
