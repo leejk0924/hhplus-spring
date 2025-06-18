@@ -1,11 +1,14 @@
 package com.jk.board.controller;
 
 import com.jk.board.dto.ArticleDto;
+import com.jk.board.dto.request.ArticleRequest;
 import com.jk.board.dto.response.ArticleResponse;
 import com.jk.board.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,5 +23,10 @@ public class ArticleController {
         List<ArticleDto> result = articleService.searchArticles();
         List<ArticleResponse> list = result.stream().map(ArticleResponse::from).toList();
         return ResponseEntity.ok(list);
+    }
+    @PostMapping("/articles")
+    public ResponseEntity<ArticleResponse> saveArticle(@RequestBody ArticleRequest articleRequest) {
+        ArticleDto dto = articleService.saveArticle(articleRequest.toDto());
+        return ResponseEntity.ok(ArticleResponse.from(dto));
     }
 }

@@ -2,6 +2,7 @@ package com.jk.board.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jk.board.domain.Article;
+import com.jk.board.domain.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -34,5 +35,19 @@ public record ArticleDto (
                 .map(ArticleDto::from)
                 .sorted(Comparator.comparing(ArticleDto::createdAt).reversed())
                 .toList();
+    }
+    public static ArticleDto of(UserDto userDto, String title, String content) {
+        return ArticleDto.builder()
+                .title(title)
+                .userDto(userDto)
+                .content(content)
+                .build();
+    }
+    public Article toEntity(User user) {
+        return Article.of(
+                user,
+                title,
+                content
+        );
     }
 }
