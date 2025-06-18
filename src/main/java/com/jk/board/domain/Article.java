@@ -1,31 +1,26 @@
 package com.jk.board.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
 @Entity
-public class Article {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Article extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userId")
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "user_Id")
     private User userId;
     @Column(length = 100, nullable = false)
     private String title;
     @Column(length = 500)
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    protected Article() {}
 
     private Article(User userId, String title, String content) {
         this.userId = userId;

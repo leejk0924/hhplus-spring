@@ -1,16 +1,16 @@
 package com.jk.board.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,6 @@ public class User {
     private String username;
     @Column(length = 100, nullable = false)
     private String password;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @CreatedDate
-    private LocalDateTime createdAt;
 
     private User(
             String username,
@@ -30,7 +27,6 @@ public class User {
         this.username = username;
         this.password = password;
     }
-    protected User(){}
     public static User of(
             String username,
             String password

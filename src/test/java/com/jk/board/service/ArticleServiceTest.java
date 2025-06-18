@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -18,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ActiveProfiles
 @DisplayName("게시글 - 서비스")
@@ -40,8 +40,7 @@ class ArticleServiceTest {
         ReflectionTestUtils.setField(article2, "createdAt", LocalDateTime.now());
         List<Article> articles = List.of(article1, article2);
 
-        Mockito.when(articleRepository.findAll())
-                .thenReturn(articles);
+        when(articleRepository.findAll()).thenReturn(articles);
 
         // when
         List<ArticleDto> result = sut.searchArticles();
@@ -50,6 +49,6 @@ class ArticleServiceTest {
         assertThat(result).hasSize(2);
         assertThat(result.get(0).title()).isEqualTo("title2");
         assertThat(result.get(0).content()).isEqualTo("content2");
-        assertThat(result.get(0).author()).isEqualTo("test1");
+        assertThat(result.get(0).userDto().username()).isEqualTo("test1");
     }
 }
