@@ -1,6 +1,7 @@
 package com.jk.board.controller;
 
 import com.jk.board.dto.ArticleDto;
+import com.jk.board.dto.response.ArticleResponse;
 import com.jk.board.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,9 @@ public class ArticleController {
     private final ArticleService articleService;
 
     @GetMapping("/articles")
-    public ResponseEntity<List<ArticleDto>> searchArticles() {
+    public ResponseEntity<List<ArticleResponse>> searchArticles() {
         List<ArticleDto> result = articleService.searchArticles();
-        return ResponseEntity.ok(result);
+        List<ArticleResponse> list = result.stream().map(ArticleResponse::from).toList();
+        return ResponseEntity.ok(list);
     }
 }
