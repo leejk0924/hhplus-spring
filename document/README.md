@@ -25,18 +25,20 @@ description: 게시글 관련 CRUD API
 ```json
 {
   {
-    "id" : 2
+    "id" : 2,
     "title" : "제목2",
-    "author" : "작성자2",
+    "username" : "작성자2",
     "content" : "내용2",
-    "createdAt" : "2025-06-14T22:30"
+    "createdAt" : "2025-06-14T22:30",
+    "modifiedAt" : "2025-06-14T22:30"
   },
   {
-    "id" : 1
+    "id" : 1,
     "title" : "제목1",
-    "author" : "작성자1",
+    "username" : "작성자1",
     "content" : "내용1",
-    "createdAt" : "2025-06-14T17:30"
+    "createdAt" : "2025-06-14T17:30",
+    "modifiedAt" : "2025-06-14T17:30"
   }
 }
 ```
@@ -71,11 +73,12 @@ description: 게시글 관련 CRUD API
 {% tab title="200" %}
 ```json
 {
-  "id" : 1
+  "id" : 1,
   "title" : "제목",
-  "author" : "작성자",
+  "username" : "작성자",
   "content" : "게시글 내용",
-  "createdAt" : "2025-06-14T22:30"
+  "createdAt" : "2025-06-14T22:30",
+  "modifiedAt" : "2025-06-14T22:30"
 }
 ```
 {% endtab %}
@@ -116,11 +119,12 @@ description: 게시글 관련 CRUD API
 {% tab title="200" %}
 ```json
 {
-  "id" : 1
+  "id" : 1,
   "title" : "제목",
   "username" : "작성자",
   "content" : "게시글 내용",
-  "createdAt" : "2025-06-14T22:30"
+  "createdAt" : "2025-06-14T22:30",
+  "modifiedAt" : "2025-06-14T22:30"
 }
 ```
 {% endtab %}
@@ -138,7 +142,7 @@ description: 게시글 관련 CRUD API
 
 <mark style="color:green;">`PUT`</mark> `/articles/{:id}`
 
-<선택한 게시글의 수정할 데이터와 비밀번호를 같이 보내고 서버의 비밀번호 확인 후 일치 시 데이터를 수정하고 수정된 게시글을 반>
+<선택한 게시글의 수정할 데이터와 비밀번호를 같이 보내고 서버의 비밀번호 확인 후 일치 시 데이터를 수정하고 수정된 게시글을 반환>
 
 **Headers**
 
@@ -165,7 +169,8 @@ description: 게시글 관련 CRUD API
   "title" : "제목",
   "username" : "작성자",
   "content" : "게시글 내용",
-  "createdAt" : "2025-06-14T22:30"
+  "createdAt" : "2025-06-14T22:30",
+  "modifiedAt" : "2025-06-15T10:20",
 }
 ```
 {% endtab %}
@@ -195,6 +200,7 @@ description: 게시글 관련 CRUD API
 
 | Name       | Type   | Description |
 | ---------- | ------ | ----------- |
+| `username` | string | 작성자         |
 | `password` | string | 비밀번호        |
 
 **Response**
@@ -203,7 +209,7 @@ description: 게시글 관련 CRUD API
 {% tab title="200" %}
 ```json
 {
-  "status": "Deleted Article"
+  "message": "Deleted Article"
 }
 ```
 {% endtab %}
