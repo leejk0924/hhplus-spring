@@ -31,4 +31,11 @@ public class ArticleController {
         ArticleDto article = articleService.getArticle(articleId);
         return ResponseEntity.ok(ArticleResponse.from(article));
     }
+    @PutMapping("/articles/{id}")
+    public ResponseEntity<ArticleResponse> updateArticle(
+            @PathVariable(name = "id") Long articleId,
+            @RequestBody ArticleRequest articleRequest) {
+        ArticleDto articleDto = articleService.updateArticle(articleId, articleRequest.toDto());
+        return ResponseEntity.ok(ArticleResponse.from(articleDto));
+    }
 }

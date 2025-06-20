@@ -1,5 +1,6 @@
 package com.jk.board.domain;
 
+import com.jk.board.dto.ArticleDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,14 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NamedQuery(
+        name = "Article.findByIdWithUser",
+        query = "SELECT a FROM Article a JOIN FETCH a.userId WHERE a.id= :id"
+)
 public class Article extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_Id")
     private User userId;
     @Column(length = 100, nullable = false)
@@ -42,5 +47,14 @@ public class Article extends BaseTimeEntity{
     @Override
     public int hashCode() {
         return Objects.hash(this.id);
+    }
+
+    public void updateFromDto(ArticleDto articleDto) {
+        if (articleDto.title() != null) {
+            this.title = articleDto.title();
+        }
+        if (articleDto.content() != null) {
+            this.content = articleDto.content();
+        }
     }
 }
