@@ -22,6 +22,11 @@ public class ArticleService {
         var savedArticle = articleRepository.save(article);
         return ArticleDto.from(savedArticle);
     }
+    @Transactional(readOnly = true)
+    public ArticleDto getArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. ID : " + id));
+        return ArticleDto.from(article);
+    }
     private static Article convertToEntity(ArticleDto articleDto) {
         return articleDto.toEntity(articleDto.userDto().toEntity());
     }
