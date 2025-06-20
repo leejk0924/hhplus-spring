@@ -4,6 +4,7 @@ import com.jk.board.domain.User;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Builder
 public record UserDto(
@@ -35,5 +36,10 @@ public record UserDto(
                 username,
                 password
         );
+    }
+
+    public boolean matches(User user) {
+        return (Objects.equals(this.username, user.getUsername()) &&
+                Objects.equals(this.password, user.getPassword()));
     }
 }
