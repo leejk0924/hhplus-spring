@@ -6,10 +6,7 @@ import com.jk.board.dto.response.ArticleResponse;
 import com.jk.board.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,10 @@ public class ArticleController {
     public ResponseEntity<ArticleResponse> saveArticle(@RequestBody ArticleRequest articleRequest) {
         ArticleDto dto = articleService.saveArticle(articleRequest.toDto());
         return ResponseEntity.ok(ArticleResponse.from(dto));
+    }
+    @GetMapping("/articles/{id}")
+    public ResponseEntity<ArticleResponse> getArticle(@PathVariable(name = "id") Long articleId) {
+        ArticleDto article = articleService.getArticle(articleId);
+        return ResponseEntity.ok(ArticleResponse.from(article));
     }
 }
