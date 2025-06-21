@@ -2,13 +2,16 @@ package com.jk.board.controller;
 
 import com.jk.board.dto.ArticleDto;
 import com.jk.board.dto.request.ArticleRequest;
+import com.jk.board.dto.request.PasswordRequest;
 import com.jk.board.dto.response.ArticleResponse;
 import com.jk.board.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,5 +40,13 @@ public class ArticleController {
             @RequestBody ArticleRequest articleRequest) {
         ArticleDto articleDto = articleService.updateArticle(articleId, articleRequest.toDto());
         return ResponseEntity.ok(ArticleResponse.from(articleDto));
+    }
+    @DeleteMapping("/articles/{id}")
+    public ResponseEntity<Map<String, String>> deleteArticle(
+            @PathVariable(name = "id") Long articleId,
+            @RequestBody PasswordRequest request) {
+        articleService.deleteArticle(articleId, request.password());
+
+        return ResponseEntity.ok(Map.of("message", "Deleted Article"));
     }
 }
