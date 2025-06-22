@@ -17,10 +17,3 @@ CREATE TABLE IF NOT EXISTS `Article` (
         FOREIGN KEY (`user_id`) REFERENCES `User`(`id`)
         ON DELETE RESTRICT
 );
-
-CREATE TABLE IF NOT EXISTS `Status_Code` (
-    `code` varchar(50) PRIMARY KEY COMMENT '상태코드명',
-    `type` varchar(10) COMMENT '상태코드 구분',
-    `httpStatus` int COMMENT 'Http 응답코드',
-    `message` varchar(50) COMMENT '상태코드 메시지'
-);
