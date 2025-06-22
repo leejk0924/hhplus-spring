@@ -33,6 +33,13 @@ public class User extends BaseTimeEntity {
     ) {
         return new User(username, password);
     }
+    @PrePersist
+    @PreUpdate
+    public void applyNoopPrefix() {
+        if (password != null && !password.startsWith("{noop}")) {
+            this.password = "{noop}" + password;
+        }
+    }
 
     @Override
     public boolean equals(Object object) {

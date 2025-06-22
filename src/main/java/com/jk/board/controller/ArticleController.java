@@ -5,11 +5,11 @@ import com.jk.board.dto.request.ArticleRequest;
 import com.jk.board.dto.request.PasswordRequest;
 import com.jk.board.dto.response.ArticleResponse;
 import com.jk.board.service.ArticleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class ArticleController {
         return ResponseEntity.ok(list);
     }
     @PostMapping("/articles")
-    public ResponseEntity<ArticleResponse> saveArticle(@RequestBody ArticleRequest articleRequest) {
+    public ResponseEntity<ArticleResponse> saveArticle(@RequestBody @Valid ArticleRequest articleRequest) {
         ArticleDto dto = articleService.saveArticle(articleRequest.toDto());
         return ResponseEntity.ok(ArticleResponse.from(dto));
     }
@@ -37,7 +37,7 @@ public class ArticleController {
     @PutMapping("/articles/{id}")
     public ResponseEntity<ArticleResponse> updateArticle(
             @PathVariable(name = "id") Long articleId,
-            @RequestBody ArticleRequest articleRequest) {
+            @RequestBody @Valid ArticleRequest articleRequest) {
         ArticleDto articleDto = articleService.updateArticle(articleId, articleRequest.toDto());
         return ResponseEntity.ok(ArticleResponse.from(articleDto));
     }

@@ -3,3 +3,6 @@ spring:
     name: board
   profiles:
     active: dev
+jwt:
+  secret: "secretsecretsecretsecretsecretsecretsecret"
+  expired-time: 10m
