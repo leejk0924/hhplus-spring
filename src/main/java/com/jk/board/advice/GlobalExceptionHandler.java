@@ -2,6 +2,7 @@ package com.jk.board.advice;
 
 import com.jk.board.exception.ArticleNotFoundException;
 import com.jk.board.exception.ArticlePermissionException;
+import com.jk.board.exception.UserAlreadyExistsException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +58,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleAuthenticationException(AuthenticationException ex) throws Exception {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error","로그인 실패: " + ex.getMessage()));
+    }
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handlerUserAlreadyExistsException(UserAlreadyExistsException ex) throws Exception {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", ex.getMessage()));
     }
 }

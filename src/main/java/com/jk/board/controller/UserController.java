@@ -2,6 +2,7 @@ package com.jk.board.controller;
 
 import com.jk.board.dto.request.UserRequest;
 import com.jk.board.service.TokenService;
+import com.jk.board.service.UserService;
 import com.jk.board.utils.JwtUtils;
 import com.jk.board.utils.SecurityUtils;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtTokenProvider;
     private final TokenService tokenService;
+    private final UserService userService;
     @Value("${jwt.expired-time}")
     private Duration expirationDuration;
     @PostMapping("/login")
@@ -39,5 +41,10 @@ public class UserController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, jwt)
                 .body(Map.of("message", "로그인에 성공하였습니다."));
+    }
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, String>> register(@RequestBody @Valid UserRequest request) {
+        userService.registerUser(request.of());
+        return ResponseEntity.ok().body(Map.of("message", "회원가입에 성공하였습니다."));
     }
 }

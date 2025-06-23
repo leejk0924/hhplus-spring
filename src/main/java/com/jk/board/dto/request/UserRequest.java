@@ -1,5 +1,6 @@
 package com.jk.board.dto.request;
 
+import com.jk.board.dto.UserRegisterDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -14,4 +15,7 @@ public record UserRequest (
         @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "password 는 영문 대소문자와 숫자만 사용할 수 있습니다.")
         String password
 ) {
+        public UserRegisterDto of() {
+                return new UserRegisterDto(username, password);
+        }
 }
