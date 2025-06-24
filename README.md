@@ -20,7 +20,7 @@
 
 # ERD 
 <p align="center">
-  <img src="./document/ERD.png" width="500" />
+  <img src="./document/ERD.svg" width="500" />
 </p>
 
 [ERD 보러 가기](https://dbdiagram.io/d/hhplus-spring-684cd8693cc77757c8d9b381)
