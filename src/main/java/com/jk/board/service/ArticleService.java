@@ -6,6 +6,7 @@ import com.jk.board.exception.ArticleNotFoundException;
 import com.jk.board.exception.ArticlePermissionException;
 import com.jk.board.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
-
+    private final PasswordEncoder passwordEncoder;
     public List<ArticleDto> searchArticles() {
         return ArticleDto.from(articleRepository.findAll());
     }
@@ -36,8 +37,7 @@ public class ArticleService {
     public ArticleDto updateArticle(Long articleId, ArticleDto articleDto) {
         Article article = articleRepository.findByIdWithUser(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException("해당 게시글이 존재하지 않습니다."));
-
-        if(!articleDto.userDto().matches(article.getUserId())) {
+        if(!passwordEncoder.matches(articleDto.userDto().password(), article.getUserId().getPassword())) {
             throw new ArticlePermissionException("username과 password를 다시 확인해 주세요");
         }
 
@@ -47,7 +47,7 @@ public class ArticleService {
     public void deleteArticle(Long articleId, String password) {
         Article article = articleRepository.findByIdWithUser(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException("해당 게시글이 존재하지 않습니다."));
-        if (article.getUserId().getPassword().equals(password)) {
+        if (passwordEncoder.matches(password, article.getUserId().getPassword())) {
             articleRepository.deleteById(articleId);
         } else {
             throw new ArticlePermissionException("password를 다시 확인해 주세요.");
