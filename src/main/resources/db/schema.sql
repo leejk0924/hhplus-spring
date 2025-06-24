@@ -17,3 +17,23 @@ CREATE TABLE IF NOT EXISTS `Article` (
         FOREIGN KEY (`user_id`) REFERENCES `User`(`id`)
         ON DELETE RESTRICT
 );
+
+CREATE TABLE IF NOT EXISTS `Comment` (
+    `id` bigint PRIMARY KEY AUTO_INCREMENT,
+    `user_id` bigint NOT NULL,
+    `article_id` bigint(20) NOT NULL,
+    `parent_id` bigint(20) DEFAULT NULL,
+    `comment` varchar(255) COMMENT '댓글 본문',
+    `is_deleted` TINYINT(1) DEFAULT 0 DEFAULT FALSE COMMENT '삭제 유무',
+    `created_at` timestamp NOT NULL COMMENT '댓글 작성 시간',
+    `modified_at` timestamp NOT NULL COMMENT '댓글 수정 시간',
+    CONSTRAINT fk_comment_user
+        FOREIGN KEY (`user_id`) REFERENCES `User`(`id`)
+        ON DELETE RESTRICT,
+    CONSTRAINT fk_comment_article
+        FOREIGN KEY (`article_id`) REFERENCES `Article`(`id`)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_comment_parentContent
+        FOREIGN KEY (`parent_id`) REFERENCES `Comment`(`id`)
+        ON DELETE CASCADE
+)
