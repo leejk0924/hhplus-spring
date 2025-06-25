@@ -7,7 +7,6 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,7 +36,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .collect(
                         Collectors.toMap(
-                                FieldError::getField,
+                                fieldError -> flatFieldName(fieldError.getField()),
                                 DefaultMessageSourceResolvable::getDefaultMessage,
                                 (existing, replacement) -> existing
                         )
@@ -62,5 +61,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Map<String, String>> handlerUserAlreadyExistsException(UserAlreadyExistsException ex) throws Exception {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", ex.getMessage()));
+    }
+    private String flatFieldName(String fieldPath) {
+        if (fieldPath.contains(".")) {
+            return fieldPath.substring(fieldPath.lastIndexOf('.') + 1);
+        }
+        return fieldPath;
     }
 }
