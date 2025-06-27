@@ -10,6 +10,7 @@ public record UserDto(
         Long id,
         String username,
         String password,
+        String role,
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
@@ -18,6 +19,7 @@ public record UserDto(
                 entity.getId(),
                 entity.getUsername(),
                 entity.getPassword(),
+                entity.getRole().getName(),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );

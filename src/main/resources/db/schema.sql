@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `User` (
     `id` bigint PRIMARY KEY AUTO_INCREMENT,
     `username` varchar(20) NOT NULL COMMENT '유저명',
     `password` varchar(100) NOT NULL COMMENT '비밀번호',
+    `role` varchar(20) NOT NULL COMMENT '권한',
     `created_at` timestamp NOT NUll COMMENT '계정 생성시간',
     `modified_at` timestamp COMMENT '계정 수정시간'
 );

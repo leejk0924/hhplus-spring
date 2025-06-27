@@ -1,8 +1,8 @@
 INSERT INTO
-    `User` (`id`, `username`, `password`, `created_at`, `modified_at`)
+    `User` (`id`, `username`, `password`, `role`,`created_at`, `modified_at`)
 VALUES
-    (1, 'user1', '{noop}password1', '2025-06-18T23:24', null),
-    (2, 'user2', '{noop}password2', '2025-06-18T16:30', null);
+    (1, 'user1', '{noop}password1', 'ROLE_ADMIN','2025-06-18T23:24', null),
+    (2, 'user2', '{noop}password2', 'ROLE_USER','2025-06-18T16:30', null);
 
 INSERT INTO
     `Article` (`id`, `user_id`, `title`, `content`, `created_at`, `modified_at`)

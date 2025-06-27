@@ -1,5 +1,7 @@
 package com.jk.board.domain;
 
+import com.jk.board.domain.type.Role;
+import com.jk.board.domain.converter.RoleConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,19 +21,24 @@ public class User extends BaseTimeEntity {
     private String username;
     @Column(length = 100, nullable = false)
     private String password;
+    @Convert(converter = RoleConverter.class)
+    @Column(length = 20, nullable = false)
+    private Role role;
 
     private User(
             String username,
-            String password
+            String password,
+            Role role
     ) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
     public static User of(
             String username,
             String password
     ) {
-        return new User(username, password);
+        return new User(username, password, Role.USER);
     }
     @PrePersist
     @PreUpdate
