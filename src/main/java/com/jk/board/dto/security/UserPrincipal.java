@@ -20,7 +20,6 @@ public record UserPrincipal(
                 authorities
         );
     }
-
     public static UserPrincipal from(UserDto dto) {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(dto.role());
         return UserPrincipal.of(
@@ -29,7 +28,9 @@ public record UserPrincipal(
                 List.of(authority)
         );
     }
-
+    public String getRole() {
+        return getAuthorities().stream().findFirst().map(GrantedAuthority::getAuthority).orElse(null);
+    }
     // 권한 : 현재는 권한은 없음, 추후 추가 예정
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

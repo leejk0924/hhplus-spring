@@ -16,4 +16,7 @@ public class TokenService {
     public void storeAccessToken(String token) {
         redisTemplate.opsForValue().set(token, "access", expirationDuration);
     }
+    public boolean isValidToken(String token) {
+        return redisTemplate.hasKey(token);
+    }
 }
