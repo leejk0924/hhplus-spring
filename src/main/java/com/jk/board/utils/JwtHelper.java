@@ -2,10 +2,7 @@ package com.jk.board.utils;
 
 import com.jk.board.dto.security.UserPrincipal;
 import com.jk.board.exception.ArticlePermissionException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +48,7 @@ public class JwtHelper {
             parser.parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new JwtException("토큰이 유효하지 않습니다: " + e.getMessage(), e);
         }
     }
     public String extractToken(HttpServletRequest request) {

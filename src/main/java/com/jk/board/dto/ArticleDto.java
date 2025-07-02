@@ -43,11 +43,20 @@ public record ArticleDto (
                 .content(content)
                 .build();
     }
+    public static ArticleDto of (String title, String content) {
+        return ArticleDto.builder()
+                .title(title)
+                .content(content)
+                .build();
+    }
     public Article toEntity(User user) {
         return Article.of(
                 user,
                 title,
                 content
         );
+    }
+    public String getAuthor() {
+        return userDto.username();
     }
 }

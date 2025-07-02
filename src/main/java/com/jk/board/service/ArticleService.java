@@ -2,6 +2,7 @@ package com.jk.board.service;
 
 import com.jk.board.domain.Article;
 import com.jk.board.dto.ArticleDto;
+import com.jk.board.dto.security.UserPrincipal;
 import com.jk.board.exception.ArticleNotFoundException;
 import com.jk.board.exception.ArticlePermissionException;
 import com.jk.board.repository.ArticleRepository;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ArticlePermission articlePermission;
     public List<ArticleDto> searchArticles() {
         return ArticleDto.from(articleRepository.findAll());
     }
@@ -33,16 +35,16 @@ public class ArticleService {
         Article article = articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException("해당 게시글이 존재하지 않습니다."));
         return ArticleDto.from(article);
     }
-    @Transactional
-    public ArticleDto updateArticle(Long articleId, ArticleDto articleDto) {
+    public ArticleDto updateArticle(Long articleId, ArticleDto articleDto, UserPrincipal userPrincipal) {
+        String role = userPrincipal.getRole();
         Article article = articleRepository.findByIdWithUser(articleId)
                 .orElseThrow(() -> new ArticleNotFoundException("해당 게시글이 존재하지 않습니다."));
-        if(!passwordEncoder.matches(articleDto.userDto().password(), article.getUserId().getPassword())) {
+        if (role.equals("ROLE_ADMIN") || articlePermission.canEdit(ArticleDto.from(article), userPrincipal)) {
+            article.updateFromDto(articleDto);
+        } else {
             throw new ArticlePermissionException("username과 password를 다시 확인해 주세요");
         }
-
-        article.updateFromDto(articleDto);
-        return ArticleDto.from(article);
+        return ArticleDto.from(articleRepository.saveAndFlush(article));
     }
     public void deleteArticle(Long articleId, String password) {
         Article article = articleRepository.findByIdWithUser(articleId)

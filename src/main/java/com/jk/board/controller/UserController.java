@@ -1,6 +1,6 @@
 package com.jk.board.controller;
 
-import com.jk.board.dto.request.LoginRequest;
+import com.jk.board.dto.request. LoginRequest;
 import com.jk.board.dto.request.RegisterRequest;
 import com.jk.board.service.TokenService;
 import com.jk.board.service.UserService;
