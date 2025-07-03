@@ -12,12 +12,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenService tokenService;
     private final JwtHelper jwtHelper;
-
+    private final List<String> EXCLUDE_PATH = List.of("/login", "/register");
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -40,5 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
         response.getWriter().flush();
+    }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return EXCLUDE_PATH.contains(request.getServletPath());
     }
 }
